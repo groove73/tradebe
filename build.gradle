@@ -21,6 +21,15 @@ configurations {
 
 repositories {
 	mavenCentral()
+	gradlePluginPortal()
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
 }
 
 dependencies {
