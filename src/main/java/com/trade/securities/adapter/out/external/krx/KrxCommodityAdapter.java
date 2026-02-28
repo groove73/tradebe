@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class KrxCommodityAdapter implements LoadCommodityTradingInfoPort {
 
-    private final WebClient webClient;
+    private final RestClient restClient;
 
     @Value("${krx.api.key}")
     private String apiKey;
@@ -39,13 +39,12 @@ public class KrxCommodityAdapter implements LoadCommodityTradingInfoPort {
         log.info("Loading Commodity trading info from KRX for market: {}, date: {}", marketType, basDd);
 
         try {
-            String rawResponse = webClient.post()
+            String rawResponse = restClient.post()
                     .uri(url)
                     .header("AUTH_KEY", apiKey)
-                    .bodyValue(Objects.requireNonNull(Map.of("basDd", basDd)))
+                    .body(Objects.requireNonNull(Map.of("basDd", basDd)))
                     .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
+                    .body(String.class);
 
             CommodityTradingPriceResponse response = CommodityTradingPriceResponse.fromJson(rawResponse);
 

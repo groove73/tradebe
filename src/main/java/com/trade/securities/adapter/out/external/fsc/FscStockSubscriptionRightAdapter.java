@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FscStockSubscriptionRightAdapter implements LoadFscStockSubscriptionRightPort {
 
-    private final WebClient webClient;
+    private final RestClient restClient;
 
     @Value("${fsc.api.key}")
     private String apiKey;
@@ -48,11 +48,10 @@ public class FscStockSubscriptionRightAdapter implements LoadFscStockSubscriptio
 
             String url = builder.build().toUriString();
 
-            FscResponse response = webClient.get()
+            FscResponse response = restClient.get()
                     .uri(url)
                     .retrieve()
-                    .bodyToMono(FscResponse.class)
-                    .block();
+                    .body(FscResponse.class);
 
             if (response != null && response.getResponse() != null && response.getResponse().getBody() != null) {
                 FscBody body = response.getResponse().getBody();

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +21,7 @@ import com.trade.securities.domain.StockData;
 @RequiredArgsConstructor
 public class KrxAdapter implements LoadMarketDataPort {
 
-    private final WebClient webClient;
+    private final RestClient restClient;
 
     @Value("${krx.api.key}")
     private String apiKey;
@@ -45,13 +45,12 @@ public class KrxAdapter implements LoadMarketDataPort {
     public List<MarketData> loadMarketData(String date, String type) {
         String url = "KRX".equalsIgnoreCase(type) ? krxUrl : kospiUrl;
         try {
-            KrxResponse response = webClient.post()
+            KrxResponse response = restClient.post()
                     .uri(url)
                     .header("AUTH_KEY", apiKey)
-                    .bodyValue(java.util.Map.of("basDd", date))
+                    .body(java.util.Map.of("basDd", date))
                     .retrieve()
-                    .bodyToMono(KrxResponse.class)
-                    .block();
+                    .body(KrxResponse.class);
 
             if (response != null && response.getOutBlock1() != null) {
                 return response.getOutBlock1().stream()
@@ -77,13 +76,12 @@ public class KrxAdapter implements LoadMarketDataPort {
             url = stkUrl;
         }
         try {
-            KrxStockResponse response = webClient.post()
+            KrxStockResponse response = restClient.post()
                     .uri(url)
                     .header("AUTH_KEY", apiKey)
-                    .bodyValue(java.util.Map.of("basDd", date))
+                    .body(java.util.Map.of("basDd", date))
                     .retrieve()
-                    .bodyToMono(KrxStockResponse.class)
-                    .block();
+                    .body(KrxStockResponse.class);
 
             if (response != null && response.getOutBlock1() != null) {
                 return response.getOutBlock1().stream()

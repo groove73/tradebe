@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KrxElwAdapter implements LoadElwTradingInfoPort {
 
-    private final WebClient webClient;
+    private final RestClient restClient;
 
     @Value("${krx.api.key}")
     private String apiKey;
@@ -28,13 +28,12 @@ public class KrxElwAdapter implements LoadElwTradingInfoPort {
         log.info("Loading ELW trading info from KRX for date: {}", basDd);
 
         try {
-            ElwTradingPriceResponse response = webClient.post()
+            ElwTradingPriceResponse response = restClient.post()
                     .uri(KRX_API_URL)
                     .header("AUTH_KEY", apiKey)
-                    .bodyValue(java.util.Objects.requireNonNull(java.util.Map.of("basDd", basDd)))
+                    .body(java.util.Objects.requireNonNull(java.util.Map.of("basDd", basDd)))
                     .retrieve()
-                    .bodyToMono(ElwTradingPriceResponse.class)
-                    .block();
+                    .body(ElwTradingPriceResponse.class);
 
             return response != null ? response.toDomainList() : List.of();
         } catch (Exception e) {

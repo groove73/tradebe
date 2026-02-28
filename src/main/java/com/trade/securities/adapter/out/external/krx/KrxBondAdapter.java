@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KrxBondAdapter implements LoadBondTradingInfoPort {
 
-    private final WebClient webClient;
+    private final RestClient restClient;
 
     @Value("${krx.api.key}")
     private String apiKey;
@@ -38,13 +38,12 @@ public class KrxBondAdapter implements LoadBondTradingInfoPort {
         log.info("Loading Bond trading info from KRX for market: {}, date: {}", marketType, basDd);
 
         try {
-            BondTradingPriceResponse response = webClient.post()
+            BondTradingPriceResponse response = restClient.post()
                     .uri(url)
                     .header("AUTH_KEY", apiKey)
-                    .bodyValue(java.util.Objects.requireNonNull(Map.of("basDd", basDd)))
+                    .body(java.util.Objects.requireNonNull(Map.of("basDd", basDd)))
                     .retrieve()
-                    .bodyToMono(BondTradingPriceResponse.class)
-                    .block();
+                    .body(BondTradingPriceResponse.class);
 
             return response != null ? response.toDomainList() : List.of();
         } catch (Exception e) {
