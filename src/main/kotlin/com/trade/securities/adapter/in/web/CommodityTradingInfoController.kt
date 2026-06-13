@@ -2,18 +2,26 @@ package com.trade.securities.adapter.`in`.web
 
 import com.trade.securities.application.port.`in`.GetCommodityTradingInfoUseCase
 import com.trade.securities.domain.CommodityTradingInfo
-import org.springframework.web.bind.annotation.*
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.PathParam
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/commodities")
+@ApplicationScoped
+@Path("/api/commodities")
+@Produces(MediaType.APPLICATION_JSON)
 class CommodityTradingInfoController(
     private val getCommodityTradingInfoUseCase: GetCommodityTradingInfoUseCase
 ) {
 
-    @GetMapping("/trading-info/{marketType}")
+    @GET
+    @Path("/trading-info/{marketType}")
     fun getCommodityTradingInfo(
-        @PathVariable marketType: String,
-        @RequestParam basDd: String
+        @PathParam("marketType") marketType: String,
+        @QueryParam("basDd") basDd: String
     ): List<CommodityTradingInfo> {
         return getCommodityTradingInfoUseCase.getCommodityTradingInfo(marketType, basDd)
     }

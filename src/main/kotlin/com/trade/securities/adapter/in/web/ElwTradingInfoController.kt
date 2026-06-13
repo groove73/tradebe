@@ -2,19 +2,23 @@ package com.trade.securities.adapter.`in`.web
 
 import com.trade.securities.application.port.`in`.GetElwTradingInfoUseCase
 import com.trade.securities.domain.ElwTradingInfo
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/elw")
+@ApplicationScoped
+@Path("/api/elw")
+@Produces(MediaType.APPLICATION_JSON)
 class ElwTradingInfoController(
     private val getElwTradingInfoUseCase: GetElwTradingInfoUseCase
 ) {
 
-    @GetMapping("/trading-info")
-    fun getElwTradingInfo(@RequestParam basDd: String): List<ElwTradingInfo> {
+    @GET
+    @Path("/trading-info")
+    fun getElwTradingInfo(@QueryParam("basDd") basDd: String): List<ElwTradingInfo> {
         return getElwTradingInfoUseCase.getElwTradingInfo(basDd)
     }
 }

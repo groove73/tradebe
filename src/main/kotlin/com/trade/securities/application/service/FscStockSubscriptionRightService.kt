@@ -2,9 +2,9 @@ package com.trade.securities.application.service
 
 import com.trade.securities.application.port.`in`.GetFscStockSubscriptionRightUseCase
 import com.trade.securities.application.port.out.LoadFscStockSubscriptionRightPort
-import org.springframework.stereotype.Service
+import jakarta.enterprise.context.ApplicationScoped
 
-@Service
+@ApplicationScoped
 class FscStockSubscriptionRightService(
     private val loadFscStockSubscriptionRightPort: LoadFscStockSubscriptionRightPort
 ) : GetFscStockSubscriptionRightUseCase {

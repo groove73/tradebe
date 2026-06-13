@@ -1,9 +1,6 @@
 plugins {
     kotlin("jvm") version "2.2.21"
-	kotlin("plugin.spring") version "2.2.21"
-    kotlin("plugin.jpa") version "2.2.21"
-	id("org.springframework.boot") version "4.0.3"
-	id("io.spring.dependency-management") version "1.1.7"
+    id("io.quarkus") version "3.36.2"
 }
 
 group = "com.trade"
@@ -11,7 +8,7 @@ version = "0.0.7-SNAPSHOT"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(25)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 	targetCompatibility = JavaVersion.VERSION_21
 }
@@ -21,28 +18,29 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-restclient")
+    implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:3.36.2"))
+    
+    implementation("io.quarkus:quarkus-kotlin")
+    implementation("io.quarkus:quarkus-rest")
+    implementation("io.quarkus:quarkus-rest-jackson")
+    implementation("io.quarkus:quarkus-config-yaml")
+    implementation("io.quarkus:quarkus-grpc")
+    implementation("io.quarkus:quarkus-arc")
+    implementation("com.google.protobuf:protobuf-kotlin")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     
-    runtimeOnly("com.h2database:h2")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 }
+
 kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
 		jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
 	}
 }
-// tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-//     kotlinOptions {
-//         freeCompilerArgs = listOf("-Xjsr305=strict")
-//         jvmTarget = "25"
-//     }
-// }
 
 tasks.named<Test>("test") {
     useJUnitPlatform()

@@ -2,23 +2,26 @@ package com.trade.securities.adapter.`in`.web
 
 import com.trade.securities.application.port.`in`.GetMarketDataUseCase
 import com.trade.securities.domain.MarketData
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.DefaultValue
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/market-data")
+@ApplicationScoped
+@Path("/api/market-data")
+@Produces(MediaType.APPLICATION_JSON)
 class MarketDataController(
     private val getMarketDataUseCase: GetMarketDataUseCase
 ) {
 
-    @GetMapping
+    @GET
     fun getMarketData(
-        @RequestParam(name = "date", defaultValue = "20241227") date: String,
-        @RequestParam(name = "type", defaultValue = "KOSPI") type: String
-    ): ResponseEntity<List<MarketData>> {
-        return ResponseEntity.ok(getMarketDataUseCase.getMarketData(date, type))
+        @QueryParam("date") @DefaultValue("20241227") date: String,
+        @QueryParam("type") @DefaultValue("KOSPI") type: String
+    ): List<MarketData> {
+        return getMarketDataUseCase.getMarketData(date, type)
     }
 }

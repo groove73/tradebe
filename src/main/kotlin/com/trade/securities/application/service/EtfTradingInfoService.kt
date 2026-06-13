@@ -3,9 +3,9 @@ package com.trade.securities.application.service
 import com.trade.securities.application.port.`in`.GetEtfTradingInfoUseCase
 import com.trade.securities.application.port.out.LoadEtfTradingInfoPort
 import com.trade.securities.domain.EtfTradingInfo
-import org.springframework.stereotype.Service
+import jakarta.enterprise.context.ApplicationScoped
 
-@Service
+@ApplicationScoped
 class EtfTradingInfoService(
     private val loadEtfTradingInfoPort: LoadEtfTradingInfoPort
 ) : GetEtfTradingInfoUseCase {

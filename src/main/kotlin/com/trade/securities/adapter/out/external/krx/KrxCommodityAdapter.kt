@@ -4,14 +4,14 @@ import com.trade.securities.adapter.out.external.krx.dto.CommodityTradingPriceRe
 import com.trade.securities.application.port.out.LoadCommodityTradingInfoPort
 import com.trade.securities.domain.CommodityTradingInfo
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
-import org.springframework.web.client.RestClient
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import jakarta.enterprise.context.ApplicationScoped
+import com.trade.securities.infrastructure.RestClient
 
-@Component
+@ApplicationScoped
 class KrxCommodityAdapter(
     private val restClient: RestClient,
-    @Value("\${krx.api.key}") private val apiKey: String
+    @ConfigProperty(name = "krx.api.key") private val apiKey: String
 ) : LoadCommodityTradingInfoPort {
 
     private val log = LoggerFactory.getLogger(javaClass)

@@ -3,16 +3,16 @@ package com.trade.securities.adapter.out.external.fsc
 import com.trade.securities.application.port.out.LoadFscNewShareCertificatePort
 import com.trade.securities.domain.FscNewShareCertificate
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
-import org.springframework.web.client.RestClient
-import org.springframework.web.util.UriComponentsBuilder
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import jakarta.enterprise.context.ApplicationScoped
+import com.trade.securities.infrastructure.RestClient
+import com.trade.securities.infrastructure.UriComponentsBuilder
 
-@Component
+@ApplicationScoped
 class FscNewShareCertificateAdapter(
     private val restClient: RestClient,
-    @Value("\${fsc.api.key}") private val apiKey: String,
-    @Value("\${fsc.api.urls.new-share:https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getPreemptiveRightCertificatePriceInfo}") private val apiUrl: String
+    @ConfigProperty(name = "fsc.api.key") private val apiKey: String,
+    @ConfigProperty(name = "fsc.api.urls.new-share", defaultValue = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getPreemptiveRightCertificatePriceInfo") private val apiUrl: String
 ) : LoadFscNewShareCertificatePort {
 
     private val log = LoggerFactory.getLogger(javaClass)

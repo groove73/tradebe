@@ -1,3 +1,39 @@
-spring:
-  profiles:
-    active: ${profile:local}
+quarkus:
+  banner:
+    enabled: false
+  http:
+    port: ${PORT:8080}
+    cors:
+      enabled: true
+      origins: ${ALLOWED_ORIGINS:http://localhost:3000}
+      methods: GET,POST,PUT,DELETE,OPTIONS
+      headers: "*"
+      access-control-allow-credentials: true
+  grpc:
+    server:
+      use-separate-server: false
+      port: 8080
+
+krx:
+  api:
+    key: ${KRX_API_KEY:4B0792D2514044CC87719067DF407E747CB35397}
+    urls:
+      kospi: https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd
+      krx: https://data-dbg.krx.co.kr/svc/apis/idx/krx_dd_trd
+      stock: https://data-dbg.krx.co.kr/svc/apis/sto/ksq_bydd_trd
+      konex: https://data-dbg.krx.co.kr/svc/apis/sto/knx_bydd_trd
+      stk: https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd
+
+fsc:
+  api:
+    key: ${FSC_API_KEY:63341670171bf921f279ee9868d18e3879513437959c396db66aa153305c5909}
+    url: https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo
+
+# Production Profile Overrides
+"%prod":
+  krx:
+    api:
+      key: ${KRX_API_KEY:mykey}
+  fsc:
+    api:
+      key: ${FSC_API_KEY:mykey}

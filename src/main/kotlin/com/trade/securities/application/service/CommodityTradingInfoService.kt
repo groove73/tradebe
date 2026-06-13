@@ -3,9 +3,9 @@ package com.trade.securities.application.service
 import com.trade.securities.application.port.`in`.GetCommodityTradingInfoUseCase
 import com.trade.securities.application.port.out.LoadCommodityTradingInfoPort
 import com.trade.securities.domain.CommodityTradingInfo
-import org.springframework.stereotype.Service
+import jakarta.enterprise.context.ApplicationScoped
 
-@Service
+@ApplicationScoped
 class CommodityTradingInfoService(
     private val loadCommodityTradingInfoPort: LoadCommodityTradingInfoPort
 ) : GetCommodityTradingInfoUseCase {

@@ -1,0 +1,355 @@
+syntax = "proto3";
+
+package com.trade.securities;
+
+option java_multiple_files = true;
+option java_package = "com.trade.securities.grpc";
+option java_outer_classname = "SecuritiesProto";
+
+service SecuritiesService {
+  rpc GetMarketData (MarketDataRequest) returns (MarketDataList);
+  rpc GetStockData (StockDataRequest) returns (StockDataList);
+  rpc GetBondTradingInfo (BondTradingInfoRequest) returns (BondTradingInfoList);
+  rpc GetCommodityTradingInfo (CommodityTradingInfoRequest) returns (CommodityTradingInfoList);
+  rpc GetDerivativesTradingInfo (DerivativesTradingInfoRequest) returns (DerivativesTradingInfoList);
+  rpc GetElwTradingInfo (ElwTradingInfoRequest) returns (ElwTradingInfoList);
+  rpc GetEtfTradingInfo (EtfTradingInfoRequest) returns (EtfTradingInfoList);
+  rpc GetEtnTradingInfo (EtnTradingInfoRequest) returns (EtnTradingInfoList);
+
+  rpc GetStockPrices (FscQuotationRequest) returns (FscStockPriceResponse);
+  rpc GetNewShareCertificates (FscQuotationRequest) returns (FscNewShareResponse);
+  rpc GetBeneficiaryCertificates (FscQuotationRequest) returns (FscBeneficiaryResponse);
+  rpc GetSubscriptionRights (FscQuotationRequest) returns (FscSubscriptionResponse);
+}
+
+message MarketDataRequest {
+  string date = 1;
+  string type = 2;
+}
+
+message MarketDataList {
+  repeated MarketData items = 1;
+}
+
+message MarketData {
+  string basDt = 1;
+  string idxNm = 2;
+  string clpr = 3;
+  string fltRt = 4;
+}
+
+message StockDataRequest {
+  string date = 1;
+  string type = 2;
+}
+
+message StockDataList {
+  repeated StockData items = 1;
+}
+
+message StockData {
+  string basDd = 1;
+  string isuCd = 2;
+  string isuNm = 3;
+  string mktNm = 4;
+  string sectTpNm = 5;
+  string tddClsprc = 6;
+  string cmpprevddPrc = 7;
+  string flucRt = 8;
+  string tddOpnprc = 9;
+  string tddHgprc = 10;
+  string tddLwprc = 11;
+  string accTrdvol = 12;
+  string accTrdval = 13;
+  string mktcap = 14;
+  string listShrs = 15;
+}
+
+message BondTradingInfoRequest {
+  string marketType = 1;
+  string basDd = 2;
+}
+
+message BondTradingInfoList {
+  repeated BondTradingInfo items = 1;
+}
+
+message BondTradingInfo {
+  string basDd = 1;
+  string mktNm = 2;
+  string isuCd = 3;
+  string isuNm = 4;
+  string clsprc = 5;
+  string cmpprevddPrc = 6;
+  string clsprcYd = 7;
+  string opnprc = 8;
+  string opnprcYd = 9;
+  string hgprc = 10;
+  string hgprcYd = 11;
+  string lwprc = 12;
+  string lwprcYd = 13;
+  string accTrdvol = 14;
+  string accTrdval = 15;
+  string mktcap = 16;
+  string listShrs = 17;
+  string bndExpTpNm = 18;
+  string govbndIsuTpNm = 19;
+}
+
+message CommodityTradingInfoRequest {
+  string marketType = 1;
+  string basDd = 2;
+}
+
+message CommodityTradingInfoList {
+  repeated CommodityTradingInfo items = 1;
+}
+
+message CommodityTradingInfo {
+  string basDd = 1;
+  string isuCd = 2;
+  string isuNm = 3;
+  string accTrdvol = 4;
+  string accTrdval = 5;
+  string tddClsprc = 6;
+  string cmpprevddPrc = 7;
+  string flucRt = 8;
+  string tddOpnprc = 9;
+  string tddHgprc = 10;
+  string tddLwprc = 11;
+  string oilNm = 12;
+  string wtAvgPrc = 13;
+  string wtDisAvgPrc = 14;
+}
+
+message DerivativesTradingInfoRequest {
+  string marketType = 1;
+  string basDd = 2;
+}
+
+message DerivativesTradingInfoList {
+  repeated DerivativesTradingInfo items = 1;
+}
+
+message DerivativesTradingInfo {
+  string basDd = 1;
+  string prodNm = 2;
+  string mktNm = 3;
+  string isuCd = 4;
+  string isuNm = 5;
+  string tddClsprc = 6;
+  string cmpprevddPrc = 7;
+  string tddOpnprc = 8;
+  string tddHgprc = 9;
+  string tddLwprc = 10;
+  string accTrdvol = 11;
+  string accTrdval = 12;
+  string accOpnintQty = 13;
+  string spotPrc = 14;
+  string setlPrc = 15;
+  string rghtTpNm = 16;
+  string impVolt = 17;
+  string nxtdBasPrc = 18;
+}
+
+message ElwTradingInfoRequest {
+  string basDd = 1;
+}
+
+message ElwTradingInfoList {
+  repeated ElwTradingInfo items = 1;
+}
+
+message ElwTradingInfo {
+  string basDd = 1;
+  string isuCd = 2;
+  string isuNm = 3;
+  string tddClsprc = 4;
+  string cmpprevddPrc = 5;
+  string tddOpnprc = 6;
+  string tddHgprc = 7;
+  string tddLwprc = 8;
+  string accTrdvol = 9;
+  string accTrdval = 10;
+  string mktcap = 11;
+  string listShrs = 12;
+  string ulyNm = 13;
+  string ulyPrc = 14;
+  string cmpprevddPrcUly = 15;
+  string flucRtUly = 16;
+}
+
+message EtfTradingInfoRequest {
+  string basDd = 1;
+}
+
+message EtfTradingInfoList {
+  repeated EtfTradingInfo items = 1;
+}
+
+message EtfTradingInfo {
+  string basDd = 1;
+  string isuCd = 2;
+  string isuNm = 3;
+  string tddClsprc = 4;
+  string cmpprevddPrc = 5;
+  string flucRt = 6;
+  string nav = 7;
+  string tddOpnprc = 8;
+  string tddHgprc = 9;
+  string tddLwprc = 10;
+  string accTrdvol = 11;
+  string accTrdval = 12;
+  string mktcap = 13;
+  string invstasstNetasstTotamt = 14;
+  string listShrs = 15;
+  string idxIndNm = 16;
+  string objStkprcIdx = 17;
+  string cmpprevddIdx = 18;
+  string flucRtIdx = 19;
+}
+
+message EtnTradingInfoRequest {
+  string basDd = 1;
+}
+
+message EtnTradingInfoList {
+  repeated EtnTradingInfo items = 1;
+}
+
+message EtnTradingInfo {
+  string basDd = 1;
+  string isuCd = 2;
+  string isuNm = 3;
+  string tddClsprc = 4;
+  string cmpprevddPrc = 5;
+  string flucRt = 6;
+  string per1secuIndicVal = 7;
+  string tddOpnprc = 8;
+  string tddHgprc = 9;
+  string tddLwprc = 10;
+  string accTrdvol = 11;
+  string accTrdval = 12;
+  string mktcap = 13;
+  string indicValAmt = 14;
+  string listShrs = 15;
+  string idxIndNm = 16;
+  string objStkprcIdx = 17;
+  string cmpprevddIdx = 18;
+  string flucRtIdx = 19;
+}
+
+message FscQuotationRequest {
+  int32 pageNo = 1;
+  int32 numOfRows = 2;
+  string basDt = 3;
+  string itmsNm = 4;
+  string likeItmsNm = 5;
+}
+
+message FscStockPriceResponse {
+  repeated FscStockPrice items = 1;
+  int32 totalCount = 2;
+  int32 pageNo = 3;
+  int32 numOfRows = 4;
+}
+
+message FscStockPrice {
+  string basDt = 1;
+  string srtCd = 2;
+  string isinCd = 3;
+  string itmsNm = 4;
+  string mrktCtg = 5;
+  string clpr = 6;
+  string vs = 7;
+  string fltRt = 8;
+  string mkp = 9;
+  string hipr = 10;
+  string lopr = 11;
+  string trqu = 12;
+  string trPrc = 13;
+  string lstgStCnt = 14;
+  string mrktTotAmt = 15;
+}
+
+message FscNewShareResponse {
+  repeated FscNewShareCertificate items = 1;
+  int32 totalCount = 2;
+  int32 pageNo = 3;
+  int32 numOfRows = 4;
+}
+
+message FscNewShareCertificate {
+  string basDt = 1;
+  string srtCd = 2;
+  string isinCd = 3;
+  string itmsNm = 4;
+  string mrktCtg = 5;
+  string clpr = 6;
+  string vs = 7;
+  string fltRt = 8;
+  string mkp = 9;
+  string hipr = 10;
+  string lopr = 11;
+  string trqu = 12;
+  string trPrc = 13;
+  string lstDt = 14;
+  string delstDt = 15;
+  string stckSrtnCd = 16;
+  string stckItmsNm = 17;
+  string stckClpr = 18;
+}
+
+message FscBeneficiaryResponse {
+  repeated FscBeneficiaryCertificate items = 1;
+  int32 totalCount = 2;
+  int32 pageNo = 3;
+  int32 numOfRows = 4;
+}
+
+message FscBeneficiaryCertificate {
+  string basDt = 1;
+  string srtCd = 2;
+  string isinCd = 3;
+  string itmsNm = 4;
+  string clpr = 5;
+  string vs = 6;
+  string fltRt = 7;
+  string mkp = 8;
+  string hipr = 9;
+  string lopr = 10;
+  string trqu = 11;
+  string trPrc = 12;
+  string lstPnt = 13;
+  string mrktTotAmt = 14;
+}
+
+message FscSubscriptionResponse {
+  repeated FscStockSubscriptionRight items = 1;
+  int32 totalCount = 2;
+  int32 pageNo = 3;
+  int32 numOfRows = 4;
+}
+
+message FscStockSubscriptionRight {
+  string basDt = 1;
+  string srtCd = 2;
+  string isinCd = 3;
+  string itmsNm = 4;
+  string mrktCtg = 5;
+  string clpr = 6;
+  string vs = 7;
+  string fltRt = 8;
+  string mkp = 9;
+  string hipr = 10;
+  string lopr = 11;
+  string trqu = 12;
+  string trPrc = 13;
+  string lstDt = 14;
+  string lstPnt = 15;
+  string hngpStrtDt = 16;
+  string hngpEndDt = 17;
+  string stckSrtnCd = 18;
+  string stckItmsNm = 19;
+  string stckClpr = 20;
+}

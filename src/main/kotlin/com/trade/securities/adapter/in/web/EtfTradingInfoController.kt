@@ -2,19 +2,23 @@ package com.trade.securities.adapter.`in`.web
 
 import com.trade.securities.application.port.`in`.GetEtfTradingInfoUseCase
 import com.trade.securities.domain.EtfTradingInfo
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/etf")
+@ApplicationScoped
+@Path("/api/etf")
+@Produces(MediaType.APPLICATION_JSON)
 class EtfTradingInfoController(
     private val getEtfTradingInfoUseCase: GetEtfTradingInfoUseCase
 ) {
 
-    @GetMapping("/trading-info")
-    fun getEtfTradingInfo(@RequestParam basDd: String): List<EtfTradingInfo> {
+    @GET
+    @Path("/trading-info")
+    fun getEtfTradingInfo(@QueryParam("basDd") basDd: String): List<EtfTradingInfo> {
         return getEtfTradingInfoUseCase.getEtfTradingInfo(basDd)
     }
 }

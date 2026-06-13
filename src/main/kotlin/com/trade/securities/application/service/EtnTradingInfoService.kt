@@ -3,9 +3,9 @@ package com.trade.securities.application.service
 import com.trade.securities.application.port.`in`.GetEtnTradingInfoUseCase
 import com.trade.securities.application.port.out.LoadEtnTradingInfoPort
 import com.trade.securities.domain.EtnTradingInfo
-import org.springframework.stereotype.Service
+import jakarta.enterprise.context.ApplicationScoped
 
-@Service
+@ApplicationScoped
 class EtnTradingInfoService(
     private val loadEtnTradingInfoPort: LoadEtnTradingInfoPort
 ) : GetEtnTradingInfoUseCase {

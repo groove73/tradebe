@@ -2,21 +2,25 @@ package com.trade.securities.adapter.`in`.web
 
 import com.trade.securities.application.port.`in`.LoadStockDataUseCase
 import com.trade.securities.domain.StockData
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.DefaultValue
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/stock-data")
+@ApplicationScoped
+@Path("/api/stock-data")
+@Produces(MediaType.APPLICATION_JSON)
 class StockDataController(
     private val loadStockDataUseCase: LoadStockDataUseCase
 ) {
 
-    @GetMapping
+    @GET
     fun getStockData(
-        @RequestParam date: String,
-        @RequestParam(defaultValue = "KOSDAQ") type: String
+        @QueryParam("date") date: String,
+        @QueryParam("type") @DefaultValue("KOSDAQ") type: String
     ): List<StockData> {
         return loadStockDataUseCase.getStockData(date, type)
     }

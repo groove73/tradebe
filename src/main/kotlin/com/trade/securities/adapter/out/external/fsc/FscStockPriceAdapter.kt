@@ -4,16 +4,16 @@ import com.trade.securities.adapter.out.external.fsc.dto.FscResponse
 import com.trade.securities.application.port.out.LoadFscStockPricePort
 import com.trade.securities.domain.FscStockPrice
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
-import org.springframework.web.client.RestClient
-import org.springframework.web.util.UriComponentsBuilder
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import jakarta.enterprise.context.ApplicationScoped
+import com.trade.securities.infrastructure.RestClient
+import com.trade.securities.infrastructure.UriComponentsBuilder
 
-@Component
+@ApplicationScoped
 class FscStockPriceAdapter(
     private val restClient: RestClient,
-    @Value("\${fsc.api.key}") private val apiKey: String,
-    @Value("\${fsc.api.url}") private val apiUrl: String
+    @ConfigProperty(name = "fsc.api.key") private val apiKey: String,
+    @ConfigProperty(name = "fsc.api.url") private val apiUrl: String
 ) : LoadFscStockPricePort {
 
     private val log = LoggerFactory.getLogger(javaClass)

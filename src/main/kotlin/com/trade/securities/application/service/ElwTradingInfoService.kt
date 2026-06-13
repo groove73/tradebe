@@ -3,9 +3,9 @@ package com.trade.securities.application.service
 import com.trade.securities.application.port.`in`.GetElwTradingInfoUseCase
 import com.trade.securities.application.port.out.LoadElwTradingInfoPort
 import com.trade.securities.domain.ElwTradingInfo
-import org.springframework.stereotype.Service
+import jakarta.enterprise.context.ApplicationScoped
 
-@Service
+@ApplicationScoped
 class ElwTradingInfoService(
     private val loadElwTradingInfoPort: LoadElwTradingInfoPort
 ) : GetElwTradingInfoUseCase {

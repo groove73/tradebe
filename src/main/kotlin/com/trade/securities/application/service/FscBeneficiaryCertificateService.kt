@@ -2,9 +2,9 @@ package com.trade.securities.application.service
 
 import com.trade.securities.application.port.`in`.GetFscBeneficiaryCertificateUseCase
 import com.trade.securities.application.port.out.LoadFscBeneficiaryCertificatePort
-import org.springframework.stereotype.Service
+import jakarta.enterprise.context.ApplicationScoped
 
-@Service
+@ApplicationScoped
 class FscBeneficiaryCertificateService(
     private val loadFscBeneficiaryCertificatePort: LoadFscBeneficiaryCertificatePort
 ) : GetFscBeneficiaryCertificateUseCase {

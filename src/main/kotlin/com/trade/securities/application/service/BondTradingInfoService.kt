@@ -3,9 +3,9 @@ package com.trade.securities.application.service
 import com.trade.securities.application.port.`in`.GetBondTradingInfoUseCase
 import com.trade.securities.application.port.out.LoadBondTradingInfoPort
 import com.trade.securities.domain.BondTradingInfo
-import org.springframework.stereotype.Service
+import jakarta.enterprise.context.ApplicationScoped
 
-@Service
+@ApplicationScoped
 class BondTradingInfoService(
     private val loadBondTradingInfoPort: LoadBondTradingInfoPort
 ) : GetBondTradingInfoUseCase {

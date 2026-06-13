@@ -4,13 +4,17 @@ import com.trade.securities.application.port.`in`.GetFscBeneficiaryCertificateUs
 import com.trade.securities.application.port.`in`.GetFscNewShareCertificateUseCase
 import com.trade.securities.application.port.`in`.GetFscStockPriceUseCase
 import com.trade.securities.application.port.`in`.GetFscStockSubscriptionRightUseCase
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.DefaultValue
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/stock-quotation")
+@ApplicationScoped
+@Path("/api/stock-quotation")
+@Produces(MediaType.APPLICATION_JSON)
 class StockQuotationController(
     private val getFscStockPriceUseCase: GetFscStockPriceUseCase,
     private val getFscNewShareCertificateUseCase: GetFscNewShareCertificateUseCase,
@@ -18,46 +22,50 @@ class StockQuotationController(
     private val getFscStockSubscriptionRightUseCase: GetFscStockSubscriptionRightUseCase
 ) {
 
-    @GetMapping("/price")
+    @GET
+    @Path("/price")
     fun getStockPrices(
-        @RequestParam(defaultValue = "1") pageNo: Int,
-        @RequestParam(defaultValue = "10") numOfRows: Int,
-        @RequestParam basDt: String,
-        @RequestParam(required = false) itmsNm: String?,
-        @RequestParam(required = false) likeItmsNm: String?
+        @QueryParam("pageNo") @DefaultValue("1") pageNo: Int,
+        @QueryParam("numOfRows") @DefaultValue("10") numOfRows: Int,
+        @QueryParam("basDt") basDt: String,
+        @QueryParam("itmsNm") itmsNm: String?,
+        @QueryParam("likeItmsNm") likeItmsNm: String?
     ): Map<String, Any?> {
         return getFscStockPriceUseCase.getStockPrices(pageNo, numOfRows, basDt, itmsNm, likeItmsNm)
     }
 
-    @GetMapping("/new-share")
+    @GET
+    @Path("/new-share")
     fun getNewShareCertificates(
-        @RequestParam(defaultValue = "1") pageNo: Int,
-        @RequestParam(defaultValue = "10") numOfRows: Int,
-        @RequestParam basDt: String,
-        @RequestParam(required = false) itmsNm: String?,
-        @RequestParam(required = false) likeItmsNm: String?
+        @QueryParam("pageNo") @DefaultValue("1") pageNo: Int,
+        @QueryParam("numOfRows") @DefaultValue("10") numOfRows: Int,
+        @QueryParam("basDt") basDt: String,
+        @QueryParam("itmsNm") itmsNm: String?,
+        @QueryParam("likeItmsNm") likeItmsNm: String?
     ): Map<String, Any?> {
         return getFscNewShareCertificateUseCase.getNewShareCertificates(pageNo, numOfRows, basDt, itmsNm, likeItmsNm)
     }
 
-    @GetMapping("/beneficiary")
+    @GET
+    @Path("/beneficiary")
     fun getBeneficiaryCertificates(
-        @RequestParam(defaultValue = "1") pageNo: Int,
-        @RequestParam(defaultValue = "10") numOfRows: Int,
-        @RequestParam basDt: String,
-        @RequestParam(required = false) itmsNm: String?,
-        @RequestParam(required = false) likeItmsNm: String?
+        @QueryParam("pageNo") @DefaultValue("1") pageNo: Int,
+        @QueryParam("numOfRows") @DefaultValue("10") numOfRows: Int,
+        @QueryParam("basDt") basDt: String,
+        @QueryParam("itmsNm") itmsNm: String?,
+        @QueryParam("likeItmsNm") likeItmsNm: String?
     ): Map<String, Any?> {
         return getFscBeneficiaryCertificateUseCase.getBeneficiaryCertificates(pageNo, numOfRows, basDt, itmsNm, likeItmsNm)
     }
 
-    @GetMapping("/subscription-right")
+    @GET
+    @Path("/subscription-right")
     fun getSubscriptionRights(
-        @RequestParam(defaultValue = "1") pageNo: Int,
-        @RequestParam(defaultValue = "10") numOfRows: Int,
-        @RequestParam basDt: String,
-        @RequestParam(required = false) itmsNm: String?,
-        @RequestParam(required = false) likeItmsNm: String?
+        @QueryParam("pageNo") @DefaultValue("1") pageNo: Int,
+        @QueryParam("numOfRows") @DefaultValue("10") numOfRows: Int,
+        @QueryParam("basDt") basDt: String,
+        @QueryParam("itmsNm") itmsNm: String?,
+        @QueryParam("likeItmsNm") likeItmsNm: String?
     ): Map<String, Any?> {
         return getFscStockSubscriptionRightUseCase.getSubscriptionRights(pageNo, numOfRows, basDt, itmsNm, likeItmsNm)
     }

@@ -2,22 +2,26 @@ package com.trade.securities.adapter.`in`.web
 
 import com.trade.securities.application.port.`in`.GetDerivativesTradingInfoUseCase
 import com.trade.securities.domain.DerivativesTradingInfo
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.PathParam
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/derivatives")
+@ApplicationScoped
+@Path("/api/derivatives")
+@Produces(MediaType.APPLICATION_JSON)
 class DerivativesTradingInfoController(
     private val getDerivativesTradingInfoUseCase: GetDerivativesTradingInfoUseCase
 ) {
 
-    @GetMapping("/trading-info/{marketType}")
+    @GET
+    @Path("/trading-info/{marketType}")
     fun getDerivativesTradingInfo(
-        @PathVariable marketType: String,
-        @RequestParam basDd: String
+        @PathParam("marketType") marketType: String,
+        @QueryParam("basDd") basDd: String
     ): List<DerivativesTradingInfo> {
         return getDerivativesTradingInfoUseCase.getDerivativesTradingInfo(marketType, basDd)
     }

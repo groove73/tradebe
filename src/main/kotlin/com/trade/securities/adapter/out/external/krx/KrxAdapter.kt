@@ -5,19 +5,19 @@ import com.trade.securities.application.port.out.LoadMarketDataPort
 import com.trade.securities.domain.MarketData
 import com.trade.securities.domain.StockData
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
-import org.springframework.web.client.RestClient
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import jakarta.enterprise.context.ApplicationScoped
+import com.trade.securities.infrastructure.RestClient
 
-@Component
+@ApplicationScoped
 class KrxAdapter(
     private val restClient: RestClient,
-    @Value("\${krx.api.key}") private val apiKey: String,
-    @Value("\${krx.api.urls.kospi}") private val kospiUrl: String,
-    @Value("\${krx.api.urls.krx}") private val krxUrl: String,
-    @Value("\${krx.api.urls.stock}") private val stockUrl: String,
-    @Value("\${krx.api.urls.konex}") private val konexUrl: String,
-    @Value("\${krx.api.urls.stk}") private val stkUrl: String
+    @ConfigProperty(name = "krx.api.key") private val apiKey: String,
+    @ConfigProperty(name = "krx.api.urls.kospi") private val kospiUrl: String,
+    @ConfigProperty(name = "krx.api.urls.krx") private val krxUrl: String,
+    @ConfigProperty(name = "krx.api.urls.stock") private val stockUrl: String,
+    @ConfigProperty(name = "krx.api.urls.konex") private val konexUrl: String,
+    @ConfigProperty(name = "krx.api.urls.stk") private val stkUrl: String
 ) : LoadMarketDataPort {
 
     private val log = LoggerFactory.getLogger(javaClass)

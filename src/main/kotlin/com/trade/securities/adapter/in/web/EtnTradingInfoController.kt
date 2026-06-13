@@ -2,19 +2,23 @@ package com.trade.securities.adapter.`in`.web
 
 import com.trade.securities.application.port.`in`.GetEtnTradingInfoUseCase
 import com.trade.securities.domain.EtnTradingInfo
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
 
-@RestController
-@RequestMapping("/api/etn")
+@ApplicationScoped
+@Path("/api/etn")
+@Produces(MediaType.APPLICATION_JSON)
 class EtnTradingInfoController(
     private val getEtnTradingInfoUseCase: GetEtnTradingInfoUseCase
 ) {
 
-    @GetMapping("/trading-info")
-    fun getEtnTradingInfo(@RequestParam basDd: String): List<EtnTradingInfo> {
+    @GET
+    @Path("/trading-info")
+    fun getEtnTradingInfo(@QueryParam("basDd") basDd: String): List<EtnTradingInfo> {
         return getEtnTradingInfoUseCase.getEtnTradingInfo(basDd)
     }
 }
