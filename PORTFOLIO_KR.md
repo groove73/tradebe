@@ -19,13 +19,13 @@
 - **Date Handling**: `date-fns`, `react-day-picker`
 
 ### Backend (`tradebe`)
-- **Framework**: [Spring Boot 3.2](https://spring.io/projects/spring-boot)
-- **Language**: Java 21 - 최신 Java LTS 버전 사용
+- **Framework**: [Quarkus 3.36](https://quarkus.io/) - 초경량, 고성능 클라우드 네이티브 자바 프레임워크
+- **Protocols**: REST (HTTP/1.1 & HTTP/2) 및 gRPC 동시 지원 (8080 단일 포트 공동 사용)
+- **Language**: Java 25 & Kotlin 2.2 - 최신 자바 컴파일러 환경 및 코틀린 사용
 - **Build Tool**: Gradle
-- **Database**: H2 (In-memory/Dev), JPA (ORM)
 - **Architecture**: **Hexagonal Architecture (Ports and Adapters)**
-  - 비즈니스 로직(Domain)을 외부 의존성(Web, Persistence, External API)으로부터 격리하여 유지보수성 및 테스트 용이성 확보
-  - `adapter`: 외부 시스템과의 통신 (Controller, Repository, External API Client)
+  - 비즈니스 로직(Domain)을 외부 의존성(Web, gRPC, External API)으로부터 격리하여 유지보수성 및 테스트 용이성 확보
+  - `adapter`: 외부 시스템과의 통신 (Jakarta REST, gRPC Service, External API Client)
   - `application`: 유스케이스 및 포트 정의
   - `domain`: 핵심 비즈니스 로직 및 엔티티
 
@@ -60,8 +60,8 @@ com.trade.securities
 │   ├── port.in     # (Input Port)
 │   └── port.out    # (Output Port)
 ├── adapter         # 외부와 상호작용 (Adapters)
-│   ├── in.web      # (Web Controller)
-│   ├── out.persistence # (Database Adapter)
+│   ├── in.web      # (Web Controller / Jakarta REST)
+│   ├── in.grpc     # (gRPC Service)
 │   └── out.external    # (External API Adapter - KRX, FSC)
 └── infrastructure  # 설정 및 공통 유틸리티 (Configuration)
 ```

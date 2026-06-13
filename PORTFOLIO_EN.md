@@ -19,13 +19,13 @@ Users can track historical price trends through **interactive charts** and **det
 - **Date Handling**: `date-fns`, `react-day-picker`.
 
 ### Backend (`tradebe`)
-- **Framework**: [Spring Boot 3.2](https://spring.io/projects/spring-boot)
-- **Language**: Java 21 - Utilizing the latest LTS version of Java.
+- **Framework**: [Quarkus 3.36](https://quarkus.io/) - Ultra-lightweight, high-performance cloud-native Java framework.
+- **Protocols**: Co-located support for REST (HTTP/1.1 & HTTP/2) and gRPC (sharing port 8080).
+- **Language**: Java 25 & Kotlin 2.2 - Leveraging the latest Java compiler environments and Kotlin.
 - **Build Tool**: Gradle.
-- **Database**: H2 (In-memory/Dev), JPA (ORM) for efficient data persistence.
 - **Architecture**: **Hexagonal Architecture (Ports and Adapters)**
-  - Decouples core business logic (Domain) from external dependencies (Web, Persistence, External APIs) to enhance maintainability and testability.
-  - `adapter`: Handles communication with external systems (Controllers, Repositories, External API Clients).
+  - Decouples core business logic (Domain) from external dependencies (REST, gRPC, External APIs) to enhance maintainability and testability.
+  - `adapter`: Handles communication with external systems (Jakarta REST Controllers, gRPC Services, External API Clients).
   - `application`: Defines use cases and ports.
   - `domain`: Encapsulates core business rules and entities.
 
@@ -60,8 +60,8 @@ com.trade.securities
 │   ├── port.in     # (Input Ports / Use Cases)
 │   └── port.out    # (Output Ports)
 ├── adapter         # External Interactions
-│   ├── in.web      # (Web Controllers)
-│   ├── out.persistence # (Database Adapters)
+│   ├── in.web      # (REST Controllers / Jakarta REST)
+│   ├── in.grpc     # (gRPC Services)
 │   └── out.external    # (External API Clients - KRX, FSC)
 └── infrastructure  # Configuration & Shared Utilities
 ```
